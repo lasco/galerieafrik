@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}recherche lieu{% endblock %}
+{% block page-id %}ajout_lieux{% endblock %}
+{% block content %}
+
+<ul id="menu">
+
+        <li>
+                <a href="{% url home %}">accueil</a>
+        </li>
+
+        <li class="menu2">
+            <a href="{% url photographe %}">Photographes</a>
+            
+                <ul>
+                    
+                    <li><a href="{% url ajoutautor %}">Ajout de photographe</a></li>
+            
+                </ul>
+        </li>
+        
+        <li>
+            
+            <a href="{% url galerie %}">photos</a>
+                
+                <ul>
+                        <li>
+                                <a href="{% url ajout_lieux %}">ajouter une photo</a>
+                        </li>
+                        
+                        <li>
+                            <a href="{% url info_photo %}">Modifier une photo</a>
+                        </li>
+
+                </ul>
+        </li>
+    
+        <li>
+            <a href = "{% url recherche %}">recherche</a>
+        </li>
+
+</ul>
+    
+    {% include "_logout.html" %}
+    
+    <h1>Recherche Lieu</h1>
+
+    <p color='red'>{{error}}</p>
+    <fieldset>
+    <table>
+    <form  method="post">{% csrf_token %}
+        
+    {% for field in form %}
+    
+        
+    <tr>
+        <td>{{ field.label_tag }}</td>
+        <td>{{ field }}</td>
+    </tr>
+            {% endfor %}
+        </table>
+    <ul id = "add_i_p">
+        <li><input type="reset" value="Reset" id="m_a_0"></li>
+        <li><input type='submit' value = "rechercher"/></li>
+    </ul>
+     </form>
+    </fieldset>
+                {% if response %}
+                    <ul>
+                    {% for photo in response %}
+                  
+                        <li><img src ='/static/{{ photo.photo.thumbnail }}' height="200" width="200" ></li>
+                        <a href= "{% url dashphoto photo.id %}"><img src="/static/css/images/button_plus.gif"></a>
+                         <a href ="{% url modif_photo photo.id 1 %} "><img id = 'image' src="/static/css/images/Pencil3.png" width="" height="50" title="{% for error in field.errors %}{{ error }}{% endfor %}" /></a>
+                    {% endfor %}
+                    </ul>
+                
+                {% else %}
+                
+                <p>pas de photo </p>
+
+                {% endif %}
+<script type="text/javascript"> 
+
+
+$(document).ready(function() 
+{ 
+
+  //toggle the componenet with class msg_body 
+  $("#id_cadre_0").click(function() 
+  { 
+		$("#id_type_ex_0").parent().hide(); 
+		$("#id_type_ex_1").parent().hide(); 
+		$("#id_type_ex_2").parent().hide();
+  				$("#id_type_in_0").parent().show(); 
+				$("#id_type_in_1").parent().show(); 
+				$("#id_type_in_2").parent().show();
+				$("#id_type_in_3").parent().show();
+  }); 
+		$("#id_cadre_1").click(function() 
+			{ 	
+				$("#id_type_in_0").parent().hide(); 
+				$("#id_type_in_1").parent().hide(); 
+				$("#id_type_in_2").parent().hide();
+				$("#id_type_in_3").parent().hide();
+						$("#id_type_ex_0").parent().show(); 
+						$("#id_type_ex_1").parent().show(); 
+						$("#id_type_ex_2").parent().show();
+			}); 
+		$("#m_a_0").click(function() 
+			{ 	
+				$("#id_type_in_0").parent().show(); 
+				$("#id_type_in_1").parent().show(); 
+				$("#id_type_in_2").parent().show();
+				$("#id_type_in_3").parent().show();
+						$("#id_type_ex_0").parent().show(); 
+						$("#id_type_ex_1").parent().show(); 
+						$("#id_type_ex_2").parent().show();
+			}); 
+}); 
+</script> 
+     {% endblock %}

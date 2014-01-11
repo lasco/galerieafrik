@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}recherche trouve too{% endblock %}
+{% block page-id %}Add-invoice{% endblock %}
+{% block content %}
+
+<ul id="menu">
+
+        <li>
+                <a href="{% url home %}">accueil</a>
+        </li>
+
+        <li class="menu2">
+            <a href="{% url photographe %}">Photographes</a>
+            
+                <ul>
+                    
+                    <li><a href="{% url ajoutautor %}">Ajout de photographe</a></li>
+            
+                </ul>
+        </li>
+        
+        <li>
+            
+            <a href="{% url galerie %}">photos</a>
+                
+                <ul>
+                        <li>
+                                <a href="{% url ajout_lieux %}">ajouter une photo</a>
+                        </li>
+                        
+                        <li>
+                            <a href="{% url info_photo %}">Modifier une photo</a>
+                        </li>
+
+                </ul>
+        </li>
+    
+        <li>
+            <a href = "{% url recherche %}">recherche</a>
+            
+                <ul>
+                        <li>
+                                <a href="{% url search_lieu %}">recherche par lieu</a>
+                        </li>
+                        <li>
+                                <a href = "{% url search_personne %}">recherche par personne</a>
+                        </li>
+                        <li>
+                                <a href="{% url search_action %}">recherche par action</a>
+                        </li>
+                        <li>
+                                <a href="{% url search_objet %}">recherche par objet </a>
+                        </li>
+                        <li>
+                                <a href="{% url search_habit %}">recherche par habit</a>
+                        </li>
+                </ul>
+        </li>
+
+</ul>
+
+    {% include "_logout.html" %}
+
+            <h1>Recherche d'un photographe</h1>
+            <div id='' >
+<p></p>
+            </div>
+          <form action="{% url recherche %}" method="GET">
+                <label for="q">Trouve too: </label>
+                <input id="tags" type="text" name="q" value="{{ query|escape }}">
+                <input type="submit" value="Recherche">
+          </form>
+
+          <script type="text/javascript">
+                $(function() {
+                    var auteur =  $( "liste").val();
+                    $( "#tags" ).autocomplete({
+                           source: auteur
+                                             });
+                        });
+        </script>
+                    
+        {% if query %}
+            <h2>Resultat de la recherche "{{ query|escape }}":</h2>
+                {% if resultat %}
+                
+                  <ul class "span-23 prepend-2">
+                  {% for photo in resultat %}
+                        <li><img src ='/static/{{ photo.photo.thumbnail }}'height="200" width="200"></li>
+                        <a href= "{% url dashphoto photo.id %}"><img src="/static/css/images/button_plus.gif"></a>
+                        <a href ="{% url modif_photo photo.id 1%} "><img id = 'image' src="/static/css/images/Pencil3.png" width="" height="50" title="{% for error in field.errors %}{{ error }}{% endfor %}" /></a>
+                  {% endfor %}
+                  </ul>
+                {% else %}
+                  <p>pas de photo</p>
+                {% endif %}
+          {% endif %}
+
+ {% endblock %}

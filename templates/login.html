@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}login{% endblock %}
+{% block page-id %}ajout_lieux{% endblock %}
+{% block content %}
+
+
+            <div class="span-12  prepend-6">
+
+                <div id="central-column" class="span-10 box">
+                    
+                    <strong><font color = 'blue'>{{state}}</font></strong>
+
+                    <form action="" method="post" autocomplete = "off">{% csrf_token %}
+
+                            {{form.as_ul}}
+
+                        <span class ="prepend-2"><input id="log"type="submit" class="button" value="Se connecter"  ></span>
+                    </form>
+                </div>
+            </div>
+                    
+ {% endblock %}
+
